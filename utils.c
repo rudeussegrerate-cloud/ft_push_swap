@@ -144,6 +144,8 @@ int	stack_min_rank(t_stack *s)
 	t_node	*cur;
 	int		min;
 
+	if (!s->top)
+		return (-1);
 	cur = s->top;
 	min = cur->rank;
 	while (cur)

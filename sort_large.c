@@ -7,6 +7,12 @@ static int	find_max_pos(t_stack *s, int *max_rank_out)
 	int		max_pos;
 	int		max_rank;
 
+	if (!s->top)
+	{
+		if (max_rank_out)
+			*max_rank_out = -1;
+		return (0);
+	}
 	cur = s->top;
 	pos = 0;
 	max_pos = 0;
@@ -33,6 +39,12 @@ static int	find_min_pos(t_stack *s, int *min_rank_out)
 	int		min_pos;
 	int		min_rank;
 
+	if (!s->top)
+	{
+		if (min_rank_out)
+			*min_rank_out = -1;
+		return (0);
+	}
 	cur = s->top;
 	pos = 0;
 	min_pos = 0;
