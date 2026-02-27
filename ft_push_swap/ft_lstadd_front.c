@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_simple_sort.c                                   :+:      :+:    :+:   */
+/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrandri2 <hrandri2@student.42antananari    +#+  +:+       +#+        */
+/*   By: tusandri <tusandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/24 05:08:54 by hrandri2          #+#    #+#             */
-/*   Updated: 2026/02/24 05:29:16 by hrandri2         ###   ########.fr       */
+/*   Created: 2026/02/05 20:20:54 by tusandri          #+#    #+#             */
+/*   Updated: 2026/02/06 03:02:55 by tusandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_push_swap.h"
 
-void    ft_simple_sort(int *tab, int size)
+void	ft_lstadd_front(stack **lst, stack *new)
 {
-	list_t	list;
-	void	*temp;
-
-	
+	if (!new || !lst)
+		return ;
+	new->next = *lst;
+	*lst = new;
 }

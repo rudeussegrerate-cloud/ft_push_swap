@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_simple_sort.c                                   :+:      :+:    :+:   */
+/*   ft_lstlast.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrandri2 <hrandri2@student.42antananari    +#+  +:+       +#+        */
+/*   By: tusandri <tusandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/24 05:08:54 by hrandri2          #+#    #+#             */
-/*   Updated: 2026/02/24 05:29:16 by hrandri2         ###   ########.fr       */
+/*   Created: 2026/02/05 20:21:57 by tusandri          #+#    #+#             */
+/*   Updated: 2026/02/06 03:03:07 by tusandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_push_swap.h"
 
-void    ft_simple_sort(int *tab, int size)
+stack	*ft_lstlast(stack *lst)
 {
-	list_t	list;
-	void	*temp;
-
-	
+	if (!lst)
+		return (NULL);
+	while (lst->next)
+		lst = lst->next;
+	return (lst);
 }

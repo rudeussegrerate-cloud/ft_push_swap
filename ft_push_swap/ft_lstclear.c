@@ -1,21 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_simple_sort.c                                   :+:      :+:    :+:   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrandri2 <hrandri2@student.42antananari    +#+  +:+       +#+        */
+/*   By: tusandri <tusandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/24 05:08:54 by hrandri2          #+#    #+#             */
-/*   Updated: 2026/02/24 05:29:16 by hrandri2         ###   ########.fr       */
+/*   Created: 2026/02/05 20:21:24 by tusandri          #+#    #+#             */
+/*   Updated: 2026/02/06 03:02:59 by tusandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_push_swap.h"
+#include "libft.h"
 
-void    ft_simple_sort(int *tab, int size)
+void	ft_lstclear(t_list **lst, void (*del)(void*))
 {
-	list_t	list;
-	void	*temp;
+	t_list	*liste;
 
-	
+	if (!lst || !del)
+		return ;
+	while (*lst)
+	{
+		liste = (*lst)->next;
+		del((*lst)->content);
+		free(*lst);
+		*lst = liste;
+	}
+	*lst = NULL;
 }
