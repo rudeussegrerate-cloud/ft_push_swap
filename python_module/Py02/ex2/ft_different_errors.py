@@ -1,29 +1,30 @@
-def operation_set(operation):
-    if (operation == 0):
-        value = "abc"
-        value = int(value)
-    elif (operation == 1):
-        value = 10
-        value = value/0
-    elif (operation == 2):
+def garden_operations(operation_number: int) -> int:
+    if (operation_number == 0):
+        int("abc")
+    elif (operation_number == 1):
+        10/0
+    elif (operation_number == 2):
         with open('fichier_inexistant.txt', 'r') as file:
-            value = file.read()
-    elif(operation == 3):
-        Value = "Sdsfoije" + 12
+            file.read()
+    elif (operation_number == 3):
+        "Sdsfoije" + 12
     else:
         print("successfuly operation number set ;)")
+    return (operation_number)
 
 
-def test_error_types(Value:int)->int:
-    try:
-        operation_set(Value)
-        return (Value)
+def test_error_types() -> None:
+    print('=== Garden Error Types Demo ===')
+    test = [0, 1, 2, 3, 4]
+    for i in test:
+        try:
+            print(f"Testing operation {i}...")
+            garden_operations(i)
+        except (ValueError, ZeroDivisionError,
+                FileNotFoundError, TypeError) as e:
+            print(f"Caught {e.__class__.__name__}: {e}")
+    print("\nAll error types tested successfully!")
 
-    except (ValueError, ZeroDivisionError, FileNotFoundError, TypeError) as e:
-        print(f"Caught TypeError: {e}")
-        return (0)
 
-def garden_operations(operation_number:int)->int:
-    if (test_error_types(operation_number)):
-        return (operation_number)
-    return (-1) #irreur signification !
+if __name__ == "__main__":
+    test_error_types()
