@@ -1,0 +1,68 @@
+Méthode 1 : Mode Recovery (la plus courante)
+
+Redémarrez et maintenez Maj ou Échap pour afficher le menu GRUB.
+Sélectionnez "Advanced options for Ubuntu" puis le "recovery mode". 
+Choisissez l'option "root" (console root). 
+Montez la partition en lecture/écriture : mount -o remount,rw /
+Réinitialisez le mot de passe : passwd nom_utilisateur (utilisez ls /home pour trouver le nom).
+Redémarrez : reboot.
+
+Méthode 2 : Directement via GRUB (si le mode recovery est bloqué)
+
+Dans le menu GRUB, sélectionnez votre entrée et appuyez sur 'e' pour éditer. 
+Trouvez la ligne commençant par linux.
+Remplacez ro quiet splash par rw init=/bin/bash.
+Appuyez sur Ctrl+X pour démarrer. 
+Le système démarre directement en shell root. Réinitialisez le mot de passe avec passwd nom_utilisateur.
+Redémarrez avec exec /sbin/init.
+
+Apparmor inforation:
+AppArmor (Application Armor) est un système de contrôle d'accès obligatoire (MAC) intégré au noyau Linux, conçu pour renforcer la sécurité en restreignant les actions des programmes. 
+
+1. Fonctionnement de base
+AppArmor fonctionne via des profils associés à chaque programme.  Ces profils, stockés dans /etc/apparmor.d/, définissent précisément les ressources (fichiers, réseau, capacités) auxquelles un programme peut accéder. Il s'appuie sur les chemins des fichiers (path-based), contrairement à SELinux qui utilise des étiquettes. 
+
+2. Modes d'application
+enforce : Mode de production.  Les règles sont appliquées et les violations sont bloquées.
+complain : Mode audit/apprentissage.  Les violations sont journalisées (dans /var/log/syslog ou /var/log/audit/audit.log) mais pas bloquées, permettant decréer ou ajuster un profil. 
+3. Utilisation et avantages
+AppArmor est préinstallé et activé par défaut sur Ubuntu et Debian. Il protège les services critiques (comme CUPS, MySQL) contre les vulnérabilités, en limitant les dégâts en cas de compromission (zero-day, RCE). Son principal avantage est sa simplicité par rapport à SELinux, avec une syntaxe plus lisible et une gestion plus accessible.
+
+L'activation d'AppArmor se fait généralement automatiquement sur les distributions comme Ubuntu, mais peut nécessiter une configuration manuelle. 
+
+1. Activation du service système
+AppArmor fonctionne comme un service systemd. Pour l'activer au démarrage :
+
+sudo systemctl enable apparmor
+
+Pour le démarrer immédiatement :
+
+sudo systemctl start apparmor
+
+2. Activation des profils (Mode Enforce)
+Le service peut être actif, mais les profils individuels peuvent être en mode audit (complain) ou désactivés. Pour activer un profil en mode enforce (production) :
+
+sudo aa-enforce /chemin/vers/le/profil
+
+Par exemple, pour activer le profil d'Apache :
+
+sudo aa-enforce /usr/sbin/apache2
+
+Pour vérifier l'état de tous les profils :
+sudo aa-status
+
+Oui, l'activation d'AppArmor est identique sur un système Debian, qu'il soit installé sur du matériel physique ou dans une machine virtuelle. 
+
+Depuis Debian 10 (Buster), AppArmor est activé par défaut.  Pour le vérifier, utilisez :
+
+sudo aa-status
+
+Si activé, la sortie indiquera apparmor module is loaded.. 
+
+Si ce n'est pas le cas (rare), activez-le en ajoutant les paramètres au noyau via GRUB :
+
+Éditez /etc/default/grub et ajoutez apparmor=1 security=apparmor à GRUB_CMDLINE_LINUX_DEFAULT.
+Mettez à jour GRUB : sudo update-grub.
+Redémarrez la VM.
+Une fois le service système activé (sudo systemctl enable --now apparmor), la gestion des profils (mode enforce ou complain) se fait de la même manière, indépendamment de l'environnement d'exécution.
+
