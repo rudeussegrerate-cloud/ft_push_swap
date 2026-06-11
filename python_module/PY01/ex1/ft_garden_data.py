@@ -9,15 +9,16 @@ class Plant:
         print(f"{self.name}: {self.height}cm, {self.age} days old")
 
 
-plante1 = Plant("Rose", 25, 30)
-plante2 = Plant("Sunflower", 80, 45)
-plante3 = Plant("Cactus", 15, 120)
+plants = [
+    Plant("Rose", 25, 30),
+    Plant("Sunflower", 80, 45),
+    Plant("Cactus", 15, 120),
+]
 
 
 def ft_garden_data() -> None:
-    plante1.show()
-    plante2.show()
-    plante3.show()
+    for plant in plants:
+        plant.show()
 
 
 if __name__ == "__main__":

@@ -2,7 +2,7 @@
 if __name__ == "__main__":
     print("== Welcome to My Garden ==")
     name = "Rose"
-    height = "25cm"
-    age = "30 days"
-    print("Plant:", name, "\nHeight:", height, "\nAge:", age)
+    height = 25
+    age = 30
+    print(f"Plant: {name} \nHeight: {height}cm \nAge: {age} days")
     print("\n== End of Program ==")
