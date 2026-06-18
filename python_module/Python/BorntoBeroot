@@ -1,0 +1,244 @@
+Méthode 1 : Mode Recovery (la plus courante)
+
+Redémarrez et maintenez Maj ou Échap pour afficher le menu GRUB.
+Sélectionnez "Advanced options for Ubuntu" puis le "recovery mode". 
+Choisissez l'option "root" (console root). 
+Montez la partition en lecture/écriture : mount -o remount,rw /
+Réinitialisez le mot de passe : passwd nom_utilisateur (utilisez ls /home pour trouver le nom).
+Redémarrez : reboot.
+
+Méthode 2 : Directement via GRUB (si le mode recovery est bloqué)
+
+Dans le menu GRUB, sélectionnez votre entrée et appuyez sur 'e' pour éditer. 
+Trouvez la ligne commençant par linux.
+Remplacez ro quiet splash par rw init=/bin/bash.
+Appuyez sur Ctrl+X pour démarrer. 
+Le système démarre directement en shell root. Réinitialisez le mot de passe avec passwd nom_utilisateur.
+Redémarrez avec exec /sbin/init.
+
+Apparmor inforation:
+AppArmor (Application Armor) est un système de contrôle d'accès obligatoire (MAC) intégré au noyau Linux, conçu pour renforcer la sécurité en restreignant les actions des programmes. 
+
+1. Fonctionnement de base
+AppArmor fonctionne via des profils associés à chaque programme.  Ces profils, stockés dans /etc/apparmor.d/, définissent précisément les ressources (fichiers, réseau, capacités) auxquelles un programme peut accéder. Il s'appuie sur les chemins des fichiers (path-based), contrairement à SELinux qui utilise des étiquettes. 
+
+2. Modes d'application
+enforce : Mode de production.  Les règles sont appliquées et les violations sont bloquées.
+complain : Mode audit/apprentissage.  Les violations sont journalisées (dans /var/log/syslog ou /var/log/audit/audit.log) mais pas bloquées, permettant decréer ou ajuster un profil. 
+3. Utilisation et avantages
+AppArmor est préinstallé et activé par défaut sur Ubuntu et Debian. Il protège les services critiques (comme CUPS, MySQL) contre les vulnérabilités, en limitant les dégâts en cas de compromission (zero-day, RCE). Son principal avantage est sa simplicité par rapport à SELinux, avec une syntaxe plus lisible et une gestion plus accessible.
+
+L'activation d'AppArmor se fait généralement automatiquement sur les distributions comme Ubuntu, mais peut nécessiter une configuration manuelle. 
+
+1. Activation du service système
+AppArmor fonctionne comme un service systemd. Pour l'activer au démarrage :
+
+sudo systemctl enable apparmor
+
+Pour le démarrer immédiatement :
+
+sudo systemctl start apparmor
+
+2. Activation des profils (Mode Enforce)
+Le service peut être actif, mais les profils individuels peuvent être en mode audit (complain) ou désactivés. Pour activer un profil en mode enforce (production) :
+
+sudo aa-enforce /chemin/vers/le/profil
+
+Par exemple, pour activer le profil d'Apache :
+
+sudo aa-enforce /usr/sbin/apache2
+
+Pour vérifier l'état de tous les profils :
+sudo aa-status
+
+Oui, l'activation d'AppArmor est identique sur un système Debian, qu'il soit installé sur du matériel physique ou dans une machine virtuelle. 
+
+Depuis Debian 10 (Buster), AppArmor est activé par défaut.  Pour le vérifier, utilisez :
+
+sudo aa-status
+
+Si activé, la sortie indiquera apparmor module is loaded.. 
+
+Si ce n'est pas le cas (rare), activez-le en ajoutant les paramètres au noyau via GRUB :
+
+Éditez /etc/default/grub et ajoutez apparmor=1 security=apparmor à GRUB_CMDLINE_LINUX_DEFAULT.
+Mettez à jour GRUB : sudo update-grub.
+Redémarrez la VM.
+Une fois le service système activé (sudo systemctl enable --now apparmor), la gestion des profils (mode enforce ou complain) se fait de la même manière, indépendamment de l'environnement d'exécution.
+
+
+
+Points clés à retenir
+AppArmor propose une approche de sécurité plus simple, basée sur les chemins d'accès, tandis que SELinux offre un contrôle plus granulaire, basé sur les étiquettes, pour une sécurité renforcée.
+AppArmor est plus facile à configurer , ce qui le rend idéal pour les ordinateurs de bureau ou les serveurs où la facilité de gestion est une priorité.
+SELinux offre une sécurité renforcée grâce à des contrôles d'accès précis et obligatoires , idéal pour les environnements d'entreprise et de haute sécurité.
+Les deux entraînent une certaine surcharge de performance , mais un réglage, des tests et une automatisation minutieux permettent d'équilibrer la sécurité et l'efficacité du système.
+
+
+Lors de la soutenance, on vous posera quelques questions sur le
+système d'exploitation que vous avez choisi. Par exemple, vous devriez
+connaître les différences entre aptitude et apt, ou savoir ce que sont
+SELinux ou AppArmor. En bref, comprenez ce que vous utilisez !
+
+
+Linux (Ubuntu/Debian)
+1. Activate SSH
+By default, the SSH server is not installed on desktop versions. Open a terminal and run:
+
+sudo apt update
+sudo apt install openssh-server
+
+The service usually starts automatically. Verify its status and enable it to start on boot:
+
+sudo systemctl status ssh
+sudo systemctl enable --now ssh
+
+If you have a firewall enabled (like UFW), allow SSH traffic:
+
+sudo ufw allow ssh
+
+
+Enable SSH Ubuntu Linux
+
+View all
+2. Change the SSH Port
+To change the port, you must edit the configuration file and update the firewall. 
+
+Edit the configuration file: Open /etc/ssh/sshd_config in a text editor.
+sudo nano /etc/ssh/sshd_config
+
+Modify the Port: Locate the line #Port 22. Remove the # to uncomment it and change 22 to your desired port (e.g., 2222).
+Port 2222
+
+Note: Choose a port between 1024 and 65535.
+Update Firewall: Allow the new port before restarting the service to avoid locking yourself out.
+sudo ufw allow 2222/tcp
+
+Restart SSH: Apply the changes.
+sudo systemctl restart ssh
+
+Verify: Check that SSH is listening on the new port.
+sudo ss -tlnp | grep ssh
+
+Connection: You must now specify the port when connecting: ssh -p 2222 user@host.
+
+
+he error "temporary failure in name resolution" (often seen as ssh: Could not resolve hostname) indicates that your system cannot translate the server's hostname into an IP address.  This is a DNS (Domain Name System) issue, not necessarily an SSH problem. 
+
+Meaning
+The error means your system's DNS resolver is unable to contact a valid DNS server to look up the hostname you provided. Common causes include:
+
+Incorrect DNS Configuration: The /etc/resolv.conf file lacks valid nameservers. 
+Network Connectivity: No internet connection or the DNS server is unreachable. 
+Firewall Blocking: Ports 53 (UDP/TCP) required for DNS queries are blocked. 
+WSL Issues: On Windows Subsystem for Linux, the auto-generated DNS config may point to an unreachable internal proxy. 
+
+Temporary failure in name resolution meaning
+
+View all
+How to Fix (Linux/WSL)
+1. Check and Update DNS Configuration
+The most common fix is to manually specify a public DNS server. 
+
+Open the configuration file:
+sudo nano /etc/resolv.conf
+
+Add or replace the nameserver lines with reliable public DNS IPs (e.g., Google or Cloudflare):
+nameserver 8.8.8.8
+nameserver 1.1.1.1
+
+Save and exit (Ctrl+O, Enter, Ctrl+X).
+Test: Try pinging a domain (ping google.com) or reconnecting via SSH. 
+Note: If you are on WSL2, this file may reset on reboot.  To make it permanent, create/edit /etc/wsl.conf, add [network]\ngenerateResolvConf = false, save, then run wsl.exe --shutdown in Windows PowerShell before restarting WSL. 
+
+
+Fix temporary failure in name resolution Linux
+
+View all
+2. Restart DNS Service
+If the configuration looks correct, the local resolver service might be stuck. Restart it:
+
+sudo systemctl restart systemd-resolved
+# Or for older systems:
+sudo systemctl restart networking
+
+3. Check Firewall Rules
+Ensure your firewall isn't blocking DNS traffic (Port 53). 
+
+UFW (Ubuntu/Debian):
+sudo ufw allow 53/tcp
+sudo ufw allow 53/udp
+sudo ufw reload
+
+Firewalld (CentOS/RHEL):
+sudo firewall-cmd --add-port=53/tcp --permanent
+sudo firewall-cmd --add-port=53/udp --permanent
+sudo firewall-cmd --reload
+
+
+Allow DNS port 53 firewall
+
+View all
+
+
+command apparmor:
+
+Syntaxe des Profils et Exemples
+Les profils sont des fichiers texte stockés dans /etc/apparmor.d/, utilisant une syntaxe lisible :
+
+Règles d'accès aux fichiers
+/etc/ld.so.cache r, : lecture seule
+/var/run/myprog.pid rw, : lecture et écriture
+/srv/www/htdocs/** r, : accès récursif à tous les fichiers du répertoire
+owner /home/*/docs/** rw, : accès limité aux fichiers possédés par l'utilisateur
+Modes d'exécution
+px : exécution avec transition vers le profil cible
+ux : exécution sans contrainte (non confiné)
+ix : héritage du profil parent
+cx : transition vers un profil enfant
+Globbing (jokers)
+AppArmor supporte des motifs avancés : * (caractères sauf /), ** (tous caractères incluant /), ? (caractère unique), [abc] (ensemble), {ab,cd} (alternatives).
+
+Outils de Gestion Principaux
+L'écosystème AppArmor fournit des utilitaires dédiés :
+
+aa-status : affiche l'état des profils chargés et leur mode
+aa-genprof : génère interactivement un profil en observant le comportement d'une application
+aa-logprof : analyse les logs de violations et propose des règles à ajouter
+aa-complain / aa-enforce : bascule un profil entre modes
+aa-autodep : crée automatiquement un profil de base
+Évolutions Récentes (Noyaux 6.x - 2024-2026)
+Linux 6.17 (août 2025) : Médiation AF_UNIX
+L'intégration majeure est la médiation des sockets AF_UNIX, longtemps portée par Ubuntu et désormais dans le noyau principal. Cette fonctionnalité permet un contrôle granulaire des communications interprocessus (IPC) selon le type de socket (abstract, anonymous, filesystem) et leur étiquette de sécurité, renforçant la protection contre les attaques IPC.
+
+Linux 6.7 et 7.0 : io_uring et Namespaces
+Contrôle d'accès à io_uring : confinement des opérations asynchrones d'E/S, critiques pour les performances modernes
+Support des namespaces utilisateurs : meilleure isolation dans les environnements conteneurisés
+Optimisations structurelles : migration vers des structures vectorielles pour la gestion des règles, améliorant l'efficacité des recherches de profils
+Améliorations transversales
+Debug printing amélioré pour un diagnostic approfondi
+Correction de bugs mémoire et de vérification de signaux
+Meilleure gestion des montages idmap pour la compatibilité conteneurs
+Performance et Comparaison
+Les benchmarks récents (Zhang et al. 2021, Miki et al. 2023) montrent qu'AppArmor introduit un overhead inférieur à SELinux :
+
+Overhead CPU : typiquement <5% en micro-benchmarks, souvent imperceptible en macro-benchmarks
+Mémoire : consommation 22% vs 85% pour SELinux (selon Miki et al. 2023)
+Raison : moins de hooks LSM traversés (~80 vs ~217 pour SELinux sur Linux 6.19) et politiques par défaut moins complexes
+La performance avantageuse d'AppArmor le rend particulièrement adapté aux systèmes embarqués, aux ressources limitées, ou aux environnements nécessitant un déploiement rapide sans compromis de sécurité majeurs.
+
+Cas d'Usage Typiques
+AppArmor excelle dans :
+
+Serveurs web et bases de données (Apache, MySQL, PostgreSQL) avec profils prédéfinis
+Conteneurs Docker : profil docker-default confinant les conteneurs non privilégiés
+Applications desktop : confinement des navigateurs, lecteurs multimédia
+Scripts personnalisés : création rapide de profils pour des tâches spécifiques (backup, traitement de données)
+Sa simplicité en fait le choix privilégié des distributions Ubuntu, Debian, openSUSE et SUSE Linux Enterprise, où il est activé par défaut.
+
+information sur SELinux ou AppArmor. - Ask BraveAsk Brave
+Explain
+Search
+
+
+metal pencil concert fox remember young broccoli because betray never custom wreck
