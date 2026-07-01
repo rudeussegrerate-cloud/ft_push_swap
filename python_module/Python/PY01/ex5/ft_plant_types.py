@@ -1,18 +1,25 @@
 #!/usr/bin/env python3
 class Plant:
     def __init__(self, name: str, height: float, p_age: int) -> None:
+        self._name = name
+        self._height = round(height, 1)
+        self._p_age = p_age
+        self.up_grow = 0.4
         if (height < 0 or p_age < 0):
             print("Erreur init OBJ plante")
-            self._name = name
-            self._height = 0.0
-            self._p_age = 0
-        else:
-            self._name = name
-            self._height = round(height, 1)
-            self._p_age = p_age
+            if (height < 0):
+                self._height = 0.0
+            if (p_age < 0):
+                self._p_age = 0
 
     def grow(self) -> None:
-        self._height = round(self._height + 0.8, 1)
+        if self._name == "Rose":
+            self.up_grow = 0.8
+        elif self._name == "Sunflower":
+            self.up_grow = 0.5
+        elif self._name == "Cactus":
+            self.up_grow = 0.2
+        self._height = round(self._height + self.up_grow, 1)
 
     def age(self) -> None:
         self._p_age = self._p_age + 1
@@ -111,16 +118,13 @@ class Vegetable(Plant):
         super().__init__(name, height, p_age)
         self._harvest_season = harvest_season
         self._nutritional_value = nutritional_value
-        self._last_Value = p_age
 
     def set_harvest_season(self, harvest_season: str) -> None:
         self._harvest_season = harvest_season
 
     def grow(self) -> None:
         super().grow()
-        if (self._p_age != self._last_Value):
-            self._nutritional_value = self._nutritional_value + 1
-            self._last_Value = self._p_age
+        self._nutritional_value = self._nutritional_value + 1
 
     def set_nutritional_value(self, nutritional_value: float) -> None:
         self._nutritional_value = nutritional_value

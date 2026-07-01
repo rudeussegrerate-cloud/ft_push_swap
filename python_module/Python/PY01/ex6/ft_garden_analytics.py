@@ -2,8 +2,9 @@
 class Plant:
     def __init__(self, name: str, height: float, p_age: int) -> None:
         self._name = name
-        self._height = float(height)
+        self._height = round(height, 1)
         self._p_age = p_age
+        self.up_grow = 0.4
         self._stat = Plant.stat()
 
     class stat:
@@ -35,11 +36,17 @@ class Plant:
         return cls("Unknown Plant", 0.0, 0)
 
     @staticmethod
-    def is_aYear(age: int) -> bool:
+    def is_a_year(age: int) -> bool:
         return (age > 364)
 
     def grow(self) -> None:
-        self._height = round(self._height + 0.8, 1)
+        if self._name == "Rose":
+            self.up_grow = 0.8
+        elif self._name == "Sunflower":
+            self.up_grow = 0.5
+        elif self._name == "Cactus":
+            self.up_grow = 0.2
+        self._height = round(self._height + self.up_grow, 1)
         self._stat.set_grow(1)
 
     def age(self) -> None:
@@ -58,7 +65,7 @@ class Plant:
             print(f"Height update: {self._height}")
 
     def set_age(self, age: int) -> None:
-        if (self.is_aYear(age)):
+        if (self.is_a_year(age)):
             print("Error, age value is wrong")
         else:
             self._p_age = age
@@ -85,7 +92,7 @@ class Flower(Plant):
                  ) -> None:
         super().__init__(name, height, p_age)
         self._color = color
-        self._IsBloom = False
+        self._isBloom = False
 
     def get_color(self) -> str:
         return self._color
@@ -94,12 +101,12 @@ class Flower(Plant):
         self._color = value
 
     def bloom(self) -> None:
-        self._IsBloom = True
+        self._isBloom = True
 
     def show(self) -> None:
         super().show()
         print(f"Color: {self._color}")
-        if not self._IsBloom:
+        if not self._isBloom:
             print(f"{self._name} has not bloomed yet")
         else:
             print(f"{self._name} is blooming beautifully!")
@@ -157,10 +164,14 @@ class Vegetable(Plant):
                  ) -> None:
         super().__init__(name, height, p_age)
         self._harvest_season = harvest_season
-        self._nutritional_value = round(float(nutritional_value), 1)
+        self._nutritional_value = round(nutritional_value, 1)
 
     def get_harvest_season(self) -> str:
         return self._harvest_season
+
+    def grow(self) -> None:
+        super().grow()
+        self._nutritional_value = self._nutritional_value + 1
 
     def set_harvest_season(self, value: str) -> None:
         self._harvest_season = value
@@ -170,6 +181,11 @@ class Vegetable(Plant):
 
     def set_nutritional_value(self, value: float) -> None:
         self._nutritional_value = value
+
+    def show(self) -> None:
+        super().show()
+        print(f"harvest season: {self._harvest_season}")
+        print(f"nutritional value: {self._nutritional_value}")
 
 
 class Seed(Flower):
@@ -205,8 +221,8 @@ def global_stat(plante: Plant) -> None:
 if __name__ == "__main__":
     print("== Garden statistics")
     print("== Check year-old")
-    print(f"Is 30 days more than a year? -> {Plant.is_aYear(30)}")
-    print(f"Is 400 days more than a year? -> {Plant.is_aYear(400)}")
+    print(f"Is 30 days more than a year? -> {Plant.is_a_year(30)}")
+    print(f"Is 400 days more than a year? -> {Plant.is_a_year(400)}")
 
     print("\n=== Flower")
     flower = Flower("Rose", 15.0, 10, "red")
@@ -226,6 +242,7 @@ if __name__ == "__main__":
     oak.stat_plant()
     oak.produce_shader()
     oak.stat_plant()
+    oak.age()
 
     print("\n=== Seed")
     seed.show()
@@ -233,6 +250,8 @@ if __name__ == "__main__":
     seed.age()
     seed.grow()
     seed.bloom()
+    seed.bloom()
+    seed.stat_plant()
     seed.show()
 
     print("\n=== Anonymous")

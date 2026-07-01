@@ -2,7 +2,7 @@
 class Plant:
     def __init__(self, name: str, height: float, p_age: int):
         self.name = name
-        self.height = float(height)
+        self.height = height
         self.p_age = p_age
         self.up_grow = 0.4
 
@@ -26,7 +26,7 @@ def ft_plant_factory() -> None:
     plante = [Plant("Rose", 25, 30),
               Plant("Oak", 200, 365),
               Plant("Cactus", 5, 90),
-              Plant("Sunflower", 200, 365),
+              Plant("Sunflower", 20, 65),
               Plant("Fern", 15, 120)]
 
     for i in range(5):

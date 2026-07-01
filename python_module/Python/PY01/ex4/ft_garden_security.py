@@ -1,18 +1,25 @@
 #!/usr/bin/env python3
 class Plant:
     def __init__(self, name: str, height: float, p_age: int) -> None:
+        self._name = name
+        self._height = round(height, 1)
+        self._p_age = p_age
+        self.up_grow = 0.4
         if (height < 0 or p_age < 0):
             print("Erreur init OBJ plante")
-            self._name = name
-            self._height = 0.0
-            self._p_age = 0
-        else:
-            self._name = name
-            self._height = round(height, 1)
-            self._p_age = p_age
+            if (height < 0):
+                self._height = 0.0
+            if p_age < 0:
+                self._p_age = 0
 
     def grow(self) -> None:
-        self._height = round(self._height + 0.8, 1)
+        if self._name == "Rose":
+            self.up_grow = 0.8
+        elif self._name == "Sunflower":
+            self.up_grow = 0.5
+        elif self._name == "Cactus":
+            self.up_grow = 0.2
+        self._height = round(self._height + self.up_grow, 1)
 
     def age(self) -> None:
         self._p_age = self._p_age + 1
@@ -22,7 +29,7 @@ class Plant:
 
     def set_height(self, height: float) -> None:
         if (height < 0):
-            print(f"{self._name}: Error, age can't be negative")
+            print(f"{self._name}: Error, height can't be negative")
             print("Height update rejected")
         else:
             self._height = round(height, 1)
@@ -31,7 +38,7 @@ class Plant:
     def set_age(self, age: int) -> None:
         if (age < 0):
             print(f"{self._name}: Error, age can't be negative")
-            print("Height update rejected")
+            print("Age update rejected")
         else:
             self._p_age = int(age)
             print(f"Age update: {self._p_age} days")
@@ -44,7 +51,7 @@ class Plant:
 
 
 def ft_garden_security() -> None:
-    plante = Plant("Rose", 15, 10)
+    plante = Plant("Rose", 5, 10)
     print("Plante created: ",  end="")
     plante.show()
     print("")
