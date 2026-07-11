@@ -1,12 +1,12 @@
 import sys
 import typing
 
+
 class Usage(Exception):
-    def __init__(self, Error="Usage: ft_ancient_text.py <file>"):
+    def __init__(self,
+                 Error: str = "Usage: ft_ancient_text.py <file>") -> None:
         super().__init__(Error)
 
-def text_gen(f: typing.IO[str]) -> None:
-    print(f.read())
 
 if __name__ == "__main__":
     try:
@@ -15,13 +15,15 @@ if __name__ == "__main__":
         print("=== Cyber Archives Recovery ===")
         print(f"Accessing file {sys.argv[1]}")
         try:
-            f = open(sys.argv[1], "r")
-            text_gen(f)
-            f.close()
-            print(f"File '{sys.argv[1]}' closed")
+            f: typing.IO[str] = open(sys.argv[1], "r")
+            print("---")
+            print(f.read())
         except Exception as e:
             print(f"Error opening file '{sys.argv[1]}': {e}")
+        finally:
+            print("---")
+            f.close()
+            print(f"File '{sys.argv[1]}' closed")
 
     except Usage as e:
         print(e)
-   

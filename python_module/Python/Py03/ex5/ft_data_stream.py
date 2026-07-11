@@ -1,15 +1,18 @@
 import typing
 import random
 
-def gen_event() -> typing.Generator[tuple, None, None]:
-    player = ['Martin', 'Bernard', 'Thomas', 'Robert', 'Lopez', 'Guillot', 'Berger']
-    action = ['eat', 'run', 'sleep', 'grab', 'move', 'climb', 'swim', 'release']
-    while(1):
-        yield tuple({random.choice(player) , random.choice(action)})
+
+def gen_event() -> typing.Generator[tuple[str, str], None, None]:
+    player = ['Martin', 'Bernard', 'Thomas',
+              'Robert', 'Lopez', 'Guillot', 'Berger']
+    action = ['eat', 'run', 'sleep', 'grab',
+              'move', 'climb', 'swim', 'release']
+    while (1):
+        yield (random.choice(player), random.choice(action))
 
 
-def consume_event(event: list) -> typing.Generator[list, None, None]:
-    while(1):
+def consume_event(event: list[str]) -> typing.Generator[list[str], None, None]:
+    while (1):
         the_event = random.choice(event)
         if the_event in event:
             event.remove(the_event)

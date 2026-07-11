@@ -12,7 +12,8 @@ if __name__ == "__main__":
                 arg = sys.argv[i].split(":", 1)
                 if not arg[0]:
                     raise IndexError(f"No quantity provided with: '{arg[0]}'")
-                d.update({arg[0]: int(arg[1])})
+                if arg[0] not in d:
+                    d.update({arg[0]: int(arg[1])})
 
             except IndexError:
                 print(f"No quntity provided with: '{arg[0]}'")
@@ -57,5 +58,5 @@ if __name__ == "__main__":
             d.update({'magic_item': 1})
 
             print(f"Updated inventory: {d}")
-        except IndexError as e:
-            print(f"Error : {e}")
+        except IndexError:
+            print("No quntity or key provided")
