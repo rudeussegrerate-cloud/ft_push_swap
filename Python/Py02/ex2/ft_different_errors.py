@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 def garden_operations(operation_number: int) -> int:
     if (operation_number == 0):
         int("abc")
@@ -8,8 +9,8 @@ def garden_operations(operation_number: int) -> int:
             file.read()
     elif (operation_number == 3):
         "Sdsfoije" + 12
-    else:
-        print("successfuly operation number set ;)")
+    elif (operation_number == 4):
+        print("Operation completed successfully")
     return (operation_number)
 
 

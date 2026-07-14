@@ -2,7 +2,7 @@
 class Plant:
     def __init__(self, name: str, height: float, p_age: int):
         self.name = name
-        self.height = float(height)
+        self.height = height
         self.p_age = p_age
         self.up_grow = 0.4
 
