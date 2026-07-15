@@ -38,9 +38,13 @@ if __name__ == "__main__":
         fu: typing.IO[str] = open(file_name, "w")
         print(f"Saving data to '{file_name}'")
         for t in list_t:
-            if t:
+            if t == list_t[-1]:
+                if t != '':
+                    fu.write(f"{t}#")
+                else:
+                    fu.write(f"{t}")
+            else:
                 fu.write(f"{t}#\n")
-        print(f"Data saved in file '{file_name}'.")
         f.close()
 
     except Usage as e:
