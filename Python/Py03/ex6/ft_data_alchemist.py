@@ -1,41 +1,23 @@
+#!/usr/bin/env python3
 import random
 
 if __name__ == "__main__":
-    # print("Last Dance 16:59")
     print("=== Game Data Alchemist ===")
     m_layer = ['martin', 'Bernard', 'thomas', 'Robert', 'lopez',
                'Guillot', 'Berger', 'gerrard']
-    init_liste = random.sample(m_layer, k=random.randint(3, 7))
-    new_liste = [''] * len(init_liste)
-    i = 0
-    for capitalize in init_liste:
-        if capitalize == capitalize.capitalize():
-            i += 1
-    c_liste = [''] * i
-    j = 0
-    i = 0
-    dict_score = {}
-    for liste in init_liste:
-        new_liste[j] = liste.capitalize()
-        if liste == liste.capitalize():
-            c_liste[i] = liste
-            i += 1
-        dict_score.update({liste: random.randint(0, 1000)})
-        j += 1
-
-    print(f"Initial list of players: {init_liste}")
-    print(f"New list of capitalized names only: {c_liste}")
-    print(f"Score dict: {dict_score}")
     try:
-        print("Score average is: ", end="")
-        print(f"{round(sum(dict_score.values())/len(dict_score.values()), 1)}")
+        init_liste = random.sample(m_layer, k=random.randint(3, 7))
+        new_liste = [new.capitalize() for new in init_liste]
+        print(f"Initial list of players: {init_liste}")
+        print(f"New list with all names capitalized: {new_liste}")
+        capital_only = [cap for cap in init_liste if cap == cap.capitalize()]
+        print(f"New list of capitalized names only: {capital_only}")
+        score = {player: random.randint(0, 1000) for player in init_liste}
+        print(f"Score dict: {score}")
+        average = round(sum(score.values())/len(score), 2)
+        print(f"Score average is {average}")
+        best_score = {high: score[high] for high in score
+                      if score[high] > average}
+        print(f"High scores: {best_score}")
     except Exception as e:
-        print(f"Error: {e}")
-        print("Score avarage is: 0")
-
-high_score = {}
-for dict in dict_score:
-    val = round(sum(dict_score.values())/len(dict_score.values()), 1)
-    if dict_score[dict] > val:
-        high_score.update({dict: dict_score[dict]})
-print(f"High scores: {high_score}")
+        print(f"Error : {e}")

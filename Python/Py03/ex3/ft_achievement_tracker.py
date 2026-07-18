@@ -1,22 +1,23 @@
+#!/usr/bin/env python3
 import random
+achievement = ['Crafting Genius', 'Strategist', 'World Savior',
+               'Speed Runner', 'Survivor', 'Master Explorer',
+               'Treasure Hunter', 'Unstoppable', 'First Steps',
+               'Collector Supreme', 'Untouchable', 'Sharp Mind',
+               'Boss Slayer']
 
 
-def gen_player_achievements() -> list[str]:
-    achievement = ['Crafting Genius', 'Strategist', 'World Savior',
-                   'Speed Runner', 'Survivor', 'Master Explorer',
-                   'Treasure Hunter', 'Unstoppable', 'First Steps',
-                   'Collector Supreme', 'Untouchable', 'Sharp Mind',
-                   'Boss Slayer']
-    return list(random.sample(achievement,
-                              k=random.randint(1, random.randint(5, 12))))
+def gen_player_achievements() -> set[str]:
+    return set(random.sample(achievement,
+               k=random.randint(1, random.randint(5, 12))))
 
 
 if __name__ == "__main__":
     print("=== Achievement Tracker System ===")
-    bob = set(gen_player_achievements())
-    james = set(gen_player_achievements())
-    roberto = set(gen_player_achievements())
-    jeremi = set(gen_player_achievements())
+    bob = gen_player_achievements()
+    james = gen_player_achievements()
+    roberto = gen_player_achievements()
+    jeremi = gen_player_achievements()
 
     players = [bob, james, roberto, jeremi]
     name = ('Bob', 'James', 'Roberto', 'Jeremi')
@@ -35,10 +36,10 @@ if __name__ == "__main__":
     print("Only ", name[3], "has: ", jeremi.difference(bob, roberto, james))
 
     print(f"\n{name[0]} is missing: ", end="")
-    print(f"{james.union(jeremi, roberto).difference(bob)}")
+    print(f"{set(achievement) - (bob)}")
     print(f"{name[1]} is missing: ", end="")
-    print(f"{bob.union(jeremi, roberto).difference(james)}")
+    print(f"{set(achievement) - (james)}")
     print(f"{name[2]} is missing: ", end="")
-    print(f"{james.union(bob, roberto).difference(jeremi)}")
+    print(f"{set(achievement) - (roberto)}")
     print(f"{name[3]} is missing: ", end="")
-    print(f"{james.union(jeremi, bob).difference(roberto)}")
+    print(f"{set(achievement) - (jeremi)}")

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import typing
 import random
 
@@ -11,22 +12,32 @@ def gen_event() -> typing.Generator[tuple[str, str], None, None]:
         yield (random.choice(player), random.choice(action))
 
 
-def consume_event(event: list[str]) -> typing.Generator[list[str], None, None]:
-    while (1):
+def consume_event(event:
+                  list[tuple[str, str]]) -> typing.Generator[
+                       tuple[str, ...], None, None]:
+    while (event):
         the_event = random.randint(0, (len(event) - 1))
-        e = event[the_event]
+        e = tuple(event[the_event])
         del event[the_event]
         yield e
 
 
 if __name__ == "__main__":
+    moves = gen_event()
     for i in range(1000):
-        iter = next(gen_event())
-        print(f"Event {i}: Player {iter[0]} did action {iter[1]}")
-    event_list = [('')] * 10
+        move = next(moves)
+        print(f"Event {i}: Player {move[0]} did action {move[1]}")
+
+    event_list: list[tuple[str, str]] = [('', '')] * 10
+    gen = gen_event()
     for i in range(10):
-        event_list[i] = next(gen_event(), "end")
+        event_list[i] = next(gen)
+
     print(f"Built list of 10 events: {event_list}")
-    while event_list:
-        print(f"Got event from list: {next(consume_event(event_list))}")
-        print(f"Remains in list: {event_list}")
+    try:
+        consumer = consume_event(event_list)
+        for e in consumer:
+            print(f"Got event from list: {e}")
+            print(f"Remains in list: {event_list}")
+    except Exception as e:
+        print(e)

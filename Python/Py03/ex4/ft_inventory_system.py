@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import sys
 
 if __name__ == "__main__":
@@ -11,14 +12,16 @@ if __name__ == "__main__":
             try:
                 arg = sys.argv[i].split(":", 1)
                 if not arg[0]:
-                    raise IndexError(f"No quantity provided with: '{arg[0]}'")
+                    raise IndexError()
                 if arg[0] not in d:
                     d.update({arg[0]: int(arg[1])})
+                else:
+                    print(f"Redundant item {arg[0]} - discarding")
 
             except IndexError:
-                print(f"No quntity provided with: '{arg[0]}'")
+                print(f"Error - invalid parameter : '{arg[0]}'")
             except ValueError as e:
-                print(f"Error qantity: '{e}'")
+                print(f"Quantity error for 'key': '{e}'")
             i += 1
         print("Got inventory:", d)
         print(f"Item list: {list(d.keys())}")
@@ -54,9 +57,9 @@ if __name__ == "__main__":
                         value = j
                     j += 1
                 i += 1
-            print(f"Item lesat abundant: {arg[value]} with quantity {min}")
+            print(f"Item least abundant: {arg[value]} with quantity {min}")
             d.update({'magic_item': 1})
 
             print(f"Updated inventory: {d}")
         except IndexError:
-            print("No quntity or key provided")
+            print("No quantity or key provided")

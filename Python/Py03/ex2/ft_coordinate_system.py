@@ -1,7 +1,8 @@
+#!/usr/bin/env python3
 import math
 
 
-def get_player_pos() -> tuple[float, float, float]:
+def get_player_pos() -> tuple[float, ...]:
     while (1):
         try:
             coordtmp = [float()] * 3
@@ -21,7 +22,7 @@ def get_player_pos() -> tuple[float, float, float]:
                 break
         except (ValueError) as e:
             print(f"Error on parameter '{coordinate[i]}': {e}")
-    return (coordtmp)
+    return tuple(coordtmp)
 
 
 if __name__ == "__main__":
@@ -35,9 +36,8 @@ if __name__ == "__main__":
         print(f"Distance to center: {round(distance, 4)}\n")
         print("Get a second set of coordinates")
         b = get_player_pos()
-        print("Got a first tuple:", a)
-        print(f"It includes: X={b[0]}, Y={b[1]}, Z={b[2]}")
         distance = math.sqrt((b[0]-a[0])**2 + (b[1]-a[1])**2 + (b[2]-a[2])**2)
-        print("Distance to center: ", round(distance, 4))
+        print("Distance between the 2 sets", end="")
+        print(f"of coordinates: {round(distance, 4)}")
     except (KeyboardInterrupt, EOFError):
         print("\nExiting programme;)")
