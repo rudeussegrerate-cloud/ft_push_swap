@@ -8,6 +8,8 @@ achievement = ['Crafting Genius', 'Strategist', 'World Savior',
 
 
 def gen_player_achievements() -> set[str]:
+    if not achievement:
+        return set()
     return set(random.sample(achievement,
                k=random.randint(1, random.randint(5, 12))))
 

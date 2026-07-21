@@ -12,7 +12,7 @@ if __name__ == "__main__":
         print(f"New list with all names capitalized: {new_liste}")
         capital_only = [cap for cap in init_liste if cap == cap.capitalize()]
         print(f"New list of capitalized names only: {capital_only}")
-        score = {player: random.randint(0, 1000) for player in init_liste}
+        score = {player: random.randint(0, 1000) for player in new_liste}
         print(f"Score dict: {score}")
         average = round(sum(score.values())/len(score), 2)
         print(f"Score average is {average}")

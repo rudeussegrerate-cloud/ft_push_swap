@@ -2,6 +2,13 @@
 import math
 
 
+def ft_len(mot: list[str]) -> int:
+    i = 0
+    for _ in mot:
+        i += 1
+    return i
+
+
 def get_player_pos() -> tuple[float, ...]:
     while (1):
         try:
@@ -18,7 +25,7 @@ def get_player_pos() -> tuple[float, ...]:
             while (i < 3):
                 coordtmp[i] = float(coordinate[i])
                 i += 1
-            if (len(coordinate) == 3):
+            if (ft_len(coordinate) == 3):
                 break
         except (ValueError) as e:
             print(f"Error on parameter '{coordinate[i]}': {e}")

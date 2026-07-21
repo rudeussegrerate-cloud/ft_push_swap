@@ -16,12 +16,12 @@ if __name__ == "__main__":
                 if arg[0] not in d:
                     d.update({arg[0]: int(arg[1])})
                 else:
-                    print(f"Redundant item {arg[0]} - discarding")
+                    print(f"Redundant item '{arg[0]}' - discarding")
 
             except IndexError:
                 print(f"Error - invalid parameter : '{arg[0]}'")
             except ValueError as e:
-                print(f"Quantity error for 'key': '{e}'")
+                print(f"Quantity error for '{arg[0]}': '{e}'")
             i += 1
         print("Got inventory:", d)
         print(f"Item list: {list(d.keys())}")
@@ -48,7 +48,9 @@ if __name__ == "__main__":
                 i += 1
             print(f"Item most abundant: {arg[value]} with quantity {max}")
             i = 0
+            j = 0
             min = d[arg[0]]
+            value = 0
             while (i < len(arg)):
                 j = i + 1
                 while (j < len(arg)):
