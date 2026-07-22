@@ -14,7 +14,8 @@ if __name__ == "__main__":
                 if not arg[0]:
                     raise IndexError()
                 if arg[0] not in d:
-                    d.update({arg[0]: int(arg[1])})
+                    if (int(arg[1]) > 0):
+                        d.update({arg[0]: int(arg[1])})
                 else:
                     print(f"Redundant item '{arg[0]}' - discarding")
 
