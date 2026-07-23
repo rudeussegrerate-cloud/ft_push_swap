@@ -9,16 +9,12 @@ class Usage(Exception):
         super().__init__(Error)
 
 
-def text_gen(f: typing.IO[str]) -> None:
-    f.read(1)
-
-
 if __name__ == "__main__":
     try:
         if (len(sys.argv) != 2):
             raise Usage()
         print("=== Cyber Archives Recovery ===")
-        print(f"Accessing file {sys.argv[1]}")
+        print(f"Accessing file '{sys.argv[1]}'")
 
         f: typing.IO[str] = open(sys.argv[1], "r")
         print("---")
@@ -30,26 +26,29 @@ if __name__ == "__main__":
         print("Transform data:")
         list_t = text.split('\n')
         print("---\n")
+
         for t in list_t:
-            if t:
-                print(f"{t}#")
+            print(f"{t}#")
+
         print("\n---")
         file_name = input("Enter new file name (or empty): ")
         fu: typing.IO[str] = open(file_name, "w")
         print(f"Saving data to '{file_name}'")
+        print(f"Data saved in file '{file_name}'.")
+
+        i = 0
         for t in list_t:
-            if t == list_t[-1]:
-                if t != '':
-                    fu.write(f"{t}#")
-                else:
-                    fu.write(f"{t}")
-            else:
+            i += 1
+            if i < len(list_t):
                 fu.write(f"{t}#\n")
-        f.close()
+            else:
+                fu.write(f"{t}#")
+
+        fu.close()
 
     except Usage as e:
         print(e)
-    except KeyboardInterrupt:
+    except (KeyboardInterrupt, EOFError):
         print("\nNot saving data.")
     except Exception as e:
         print(f"Error opening file '{sys.argv[1]}': {e}")

@@ -6,6 +6,7 @@ class DataProcessor(ABC):
     def __init__(self) -> None:
         super().__init__()
         self.save: list[Any] = []
+        self.position: int = 0
     
     @abstractmethod
     def validate(self, data: Any) -> bool:
@@ -15,9 +16,11 @@ class DataProcessor(ABC):
     def ingest(self, data: Any) -> None:
         pass
 
-    def output(self) -> tuple[int, str]:
-        return tuple((i, self.save.pop(0)) for i in range(len(self.save)))
-
+    def output(self) -> tuple[int, Any]:
+        element = self.save.pop(0)
+        p = int(self.position)
+        self.position += 1
+        return tuple((p, element))
 
 
 class NumericProcessor(DataProcessor):
@@ -83,9 +86,9 @@ class LogProcessor(DataProcessor):
                 if not isinstance(element, str | int | float | list | dict):
                     raise Exception("Got exception: Improper dict data")
                 else:
-                    self.save.append(str(data))
+                    self.save.append(data)
         else:
-            self.save.append(str(data))
+            self.save.append(data)
 
 
 
@@ -93,9 +96,10 @@ if __name__ == "__main__":
     num = NumericProcessor()
     text = TextProcessor()
     log = LogProcessor()
-    data = [1, 2, 3, 4, 5]
+    data: list[Any] = []
     value_extract = 3
 
+    data = [1, 2, 3, 4, 5]
     print("=== Code Nexus - Data Processor ===")
     print("Testing Numeric Processor...")
     print(f"Trying to validate input '42': {num.validate(42)}")
@@ -108,12 +112,40 @@ if __name__ == "__main__":
         print(e)
 
     print(f"Processing data: {data}")
-    
+
     for d in data:
         num.ingest(d)
-    
-    print(f"Extracting {value_extract} values...")    
-    extract = num.output()
-    extract = list(extract)
-    for i in extract:
-        print(f"Numeric value {i[0]}:{i[1]}")
+
+    print(f"Extracting 3 values...")
+    for i in range(3):
+        a = num.output()
+        print(f"Numeric value {a[0]}: {a[1]}")
+
+    print("Testing Text Processor...")
+    print(f"Trying to validate input '42': {text.validate(42)}")
+    data = ['Hello', 'Nexus', 'World']
+
+    for value in data:
+        text.ingest(value)
+
+
+    for i in range(2):
+        a = text.output()
+        print(f"Text value {a[0]}: {a[1]}")
+
+
+    print("Testing Log Processor...")
+    print(f"Trying to validate input '42': {log.validate(42)}")
+    data = [{'log_level': 'NOTICE', 'log_message': 'Connection to server'}, {'log_level': 'ERROR', 'log_message': 'Unauthorized access!!'}]
+
+    print(f"Processing data: {data}\n")
+    print("Extracting 2 values...")
+
+    for value in data:
+        log.ingest(value)
+
+    for i in range(2):
+        a = log.output()
+
+    print(f"Processing value {a}")
+
