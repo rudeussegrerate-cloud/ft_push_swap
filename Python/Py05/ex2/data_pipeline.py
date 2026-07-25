@@ -136,16 +136,13 @@ class DataStream:
 
 
     def output_pipeline(self, nb: int, plugin: ExportPlugin) -> None:
-        try:
-            for proc in self.save_process:
-                data: list[int, str] = []
-                for _ in range(nb):
+        for proc in self.save_process:
+            data: list[int, str] = []
+            for _ in range(nb):
+                if proc.save:
                     data.append(proc.output())
-                if data is not None:
-                    plugin.process_output(data)
-        except Exception as e:
-            print("\nGot error", e)
-
+            if data:
+                plugin.process_output(data)
 
     def print_processors_stats(self) -> None:
         print("== DataStream statistics ==")
@@ -206,6 +203,6 @@ if __name__ == "__main__":
     print("Send another batch of data: ", batch)
     stream.process_stream(batch)
     print("Send 5 processed data from each processor to a JSON plugin:")
-    stream.output_pipeline(2, Jsonexportplugin())
+    stream.output_pipeline(5, Jsonexportplugin())
 
     stream.print_processors_stats()
