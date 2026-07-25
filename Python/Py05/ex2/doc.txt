@@ -1,0 +1,5 @@
+statistique
+affichage
+all not ready!
+flake8
+mypy
