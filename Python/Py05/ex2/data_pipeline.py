@@ -7,7 +7,6 @@ class ExportPlugin(Protocol):
         pass
 
 
-
 class DataProcessor(ABC):
     def __init__(self) -> None:
         super().__init__()
@@ -168,7 +167,6 @@ class Jsonexportplugin:
         print()
 
 
-
 if __name__ == "__main__":
     print("=== Code Nexus - Data Pipeline ===\n")
     print("Initialize Data Stream...\n")
@@ -203,6 +201,6 @@ if __name__ == "__main__":
     print("Send another batch of data: ", batch)
     stream.process_stream(batch)
     print("Send 5 processed data from each processor to a JSON plugin:")
-    stream.output_pipeline(5, Jsonexportplugin())
+    stream.output_pipeline(100, Jsonexportplugin())
 
     stream.print_processors_stats()
