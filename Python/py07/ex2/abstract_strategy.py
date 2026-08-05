@@ -68,7 +68,4 @@ class DefensiveStrategy(BattleStrategy):
 
 
     def is_valid(self, creatur: Sproutling | Bloomelle) -> bool:
-        if isinstance(creatur, Sproutling | Bloomelle):
-            return True
-        else:
-            return False
+        return isinstance(creatur, Sproutling | Bloomelle)

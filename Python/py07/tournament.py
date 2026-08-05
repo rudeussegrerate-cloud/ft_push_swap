@@ -4,7 +4,7 @@ from ex1 import HealingCreatureFactory
 from ex1 import TransformCreatureFactory
 
 
-def Battle(opponent: list[tuple[creature_creation.Creature, BattleStrategy]]) -> None:
+def Battle(opponent: list[tuple[creature_creation.CreatureFactory, BattleStrategy]]) -> None:
     for player in opponent:
         print(f"{player[0]._name} + {player[1].name}")
 
