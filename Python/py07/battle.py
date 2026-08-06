@@ -1,5 +1,6 @@
 from ex0 import FlameFactory, AquaFactory
 
+
 def script_verify(factory: FlameFactory | AquaFactory) -> None:
     print("Testing factory")
     c1 = factory.create_base()
@@ -11,7 +12,7 @@ def script_verify(factory: FlameFactory | AquaFactory) -> None:
     print("")
 
 
-def battle_mode(factory1: FlameFactory, factory2: AquaFactory):
+def battle_mode(factory1: FlameFactory, factory2: AquaFactory) -> None:
     print("Testing battle")
     c1 = factory1.create_base()
     c2 = factory2.create_base()
@@ -19,6 +20,7 @@ def battle_mode(factory1: FlameFactory, factory2: AquaFactory):
     print("fight!")
     print(c1.attack())
     print(c2.attack())
+
 
 if __name__ == "__main__":
 

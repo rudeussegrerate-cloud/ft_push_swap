@@ -13,7 +13,6 @@ if __name__ == "__main__":
     print(base_heal.attack())
     print(base_heal.heal())
 
-
     print(" evolve:")
     print(evol_heal.describe())
     print(evol_heal.attack())

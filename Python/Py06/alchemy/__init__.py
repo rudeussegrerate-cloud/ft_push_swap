@@ -5,5 +5,5 @@ from .potions import healing_potion as heal
 __all__ = [
     "create_air",
     "heal",
-    "lead_to_gold",
+    "lead_to_gold"
     ]

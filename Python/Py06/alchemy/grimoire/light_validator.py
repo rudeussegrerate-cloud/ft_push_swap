@@ -1,4 +1,4 @@
-from . import light_spellbook
+from alchemy.grimoire import light_spellbook
 
 
 def validate_ingredients(ingredients: str) -> str:

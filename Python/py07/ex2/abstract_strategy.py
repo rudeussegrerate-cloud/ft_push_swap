@@ -4,68 +4,60 @@ from ex1.concret_capacity import Sproutling, Bloomelle
 from ex1.transformf_actory import Shiftling, Morphagon
 
 
+class StrategyError(Exception):
+    pass
+
+
 class BattleStrategy(ABC):
     def __init__(self) -> None:
         self.name = None
 
-
     @abstractmethod
-    def act(self, creatur: Creature) -> None:
+    def is_valid(self, creatur: Creature) -> bool:
         pass
 
-
     @abstractmethod
-    def is_valid(self) -> bool:
+    def act(self, creatur: Creature) -> str:
         pass
 
 
 class NormalStrategy(BattleStrategy):
-    def __init__(self):
-        super().__init__()
-        self.name = "Normal"
+    def act(self, creatur: Creature) -> str:
+        if self.is_valid(creatur):
+            return creatur.attack()
+        else:
+            raise StrategyError("Error, {creatur._name} isn't \
+compatible with Normal strategy!")
 
-    def act(self, creatur: Creature) -> None:
-        return creatur.attack()
-
-
-    def is_valid(self) -> bool:
-        return True
+    def is_valid(self, creatur: Creature) -> bool:
+        return isinstance(creatur, Creature)
 
 
 class AggressiveStrategy(BattleStrategy):
-    def __init__(self):
-        super().__init__()
-        self.name = "Aggressive"
 
-    def act(self, creatur: Shiftling | Morphagon):
+    def act(self, creatur: Shiftling | Morphagon) -> str:
         if self.is_valid(creatur):
-            creatur.transform()
-            creatur.attack()
-            creatur.revert()
+            res1 = creatur.transform()
+            res2 = creatur.attack()
+            res3 = creatur.revert()
+            return f"{res1}\n{res2}\n{res3}"
         else:
-            raise Exception("Error, this creature isn't compatible with this strategy!")
-
+            raise StrategyError(f"Error, {creatur._name} isn't \
+compatible with Aggressive strategy!")
 
     def is_valid(self, creatur: Shiftling | Morphagon) -> bool:
-        if isinstance(creatur, Shiftling | Morphagon):
-            return True
-        else:
-            return False
+        return isinstance(creatur, Shiftling | Morphagon)
 
 
 class DefensiveStrategy(BattleStrategy):
-    def __init__(self):
-        super().__init__()
-        self.name = "Defensive"
-
-
-    def act(self, creatur: Sproutling | Bloomelle):
+    def act(self, creatur: Sproutling | Bloomelle) -> None:
         if self.is_valid(creatur):
-            creatur.attack()
-            creatur.heal()
+            res1 = creatur.attack()
+            res2 = creatur.heal()
+            return f"{res1}\n{res2}"
         else:
-            raise Exception("Error, this creature isn't compatible with this strategy!")
-
+            raise StrategyError(f"Error, {creatur._name} isn't \
+                                  compatible with Defensive strategy!")
 
     def is_valid(self, creatur: Sproutling | Bloomelle) -> bool:
         return isinstance(creatur, Sproutling | Bloomelle)
