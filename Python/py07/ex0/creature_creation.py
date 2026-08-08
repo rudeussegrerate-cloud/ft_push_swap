@@ -16,16 +16,16 @@ class CreatureFactory(ABC):
 class FlameFactory(CreatureFactory):
 
     def create_base(self) -> Flameling:
-        return Flameling("Flameling", "Fire")
+        return Flameling()
 
     def create_evolved(self) -> Pyrodon:
-        return Pyrodon("Pyrodon", "Fire/Flying")
+        return Pyrodon()
 
 
 class AquaFactory(CreatureFactory):
 
     def create_base(self) -> Aquabub:
-        return Aquabub("Aquabub", "Water")
+        return Aquabub()
 
     def create_evolved(self) -> Torragon:
-        return Torragon("Torragon", "Hydro")
+        return Torragon()

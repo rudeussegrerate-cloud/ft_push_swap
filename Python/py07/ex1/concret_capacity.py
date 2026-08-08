@@ -3,28 +3,28 @@ from ex0.creature_creation import CreatureFactory
 from ex1 import capacity
 
 
-class Sproutling(Creature):
+class Sproutling(Creature, capacity.HealCapability):
 
-    def __init__(self, name: str, type: str) -> None:
-        super().__init__(name, type)
+    def __init__(self) -> None:
+        super().__init__("Sproutling", "Grass")
 
     def attack(self) -> str:
-        return f"{self._name} use  Vine Whip!"
+        return f"{self.name} uses  Vine Whip!"
 
     def heal(self) -> str:
-        return f"{self._name} heals itself and others for a small amount"
+        return f"{self.name} heals itself for a small amount"
 
 
 class Bloomelle(Creature, capacity.HealCapability):
 
-    def __init__(self, name: str, type: str) -> None:
-        super().__init__(name, type)
+    def __init__(self) -> None:
+        super().__init__("Bloomelle", "Grass/Fairy")
 
     def attack(self) -> str:
-        return f"{self._name} use Petal Dance!"
+        return f"{self.name} uses Petal Dance!"
 
     def heal(self) -> str:
-        return f"{self._name} heals itself and others for a large amount"
+        return f"{self.name} heals itself and others for a large amount"
 
 
 class HealingCreatureFactory(CreatureFactory):
@@ -32,7 +32,7 @@ class HealingCreatureFactory(CreatureFactory):
         super().__init__()
 
     def create_base(self) -> Sproutling:
-        return Sproutling("Sproutling", "Grass")
+        return Sproutling()
 
     def create_evolved(self) -> Bloomelle:
-        return Bloomelle("Bloomelle", "Grass/Fairy")
+        return Bloomelle()

@@ -1,7 +1,8 @@
 from ex0 import FlameFactory, AquaFactory
+from ex0.creature_creation import CreatureFactory
 
 
-def script_verify(factory: FlameFactory | AquaFactory) -> None:
+def script_verify(factory: CreatureFactory) -> None:
     print("Testing factory")
     c1 = factory.create_base()
     print(c1.describe())
@@ -12,7 +13,7 @@ def script_verify(factory: FlameFactory | AquaFactory) -> None:
     print("")
 
 
-def battle_mode(factory1: FlameFactory, factory2: AquaFactory) -> None:
+def battle_mode(factory1: CreatureFactory, factory2: CreatureFactory) -> None:
     print("Testing battle")
     c1 = factory1.create_base()
     c2 = factory2.create_base()
@@ -23,9 +24,11 @@ def battle_mode(factory1: FlameFactory, factory2: AquaFactory) -> None:
 
 
 if __name__ == "__main__":
-
-    creature1 = FlameFactory()
-    creature2 = AquaFactory()
-    script_verify(creature1)
-    script_verify(creature2)
-    battle_mode(creature1, creature2)
+    try:
+        creature1 = FlameFactory()
+        creature2 = AquaFactory()
+        script_verify(creature1)
+        script_verify(creature2)
+        battle_mode(creature1, creature2)
+    except Exception as e:
+        print(f"Got error: {e}")

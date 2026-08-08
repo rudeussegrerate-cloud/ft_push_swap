@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
+from typing import Any
 from ex0.creature_type import Creature
+from ex1.capacity import HealCapability, TransformCapability
 from ex1.concret_capacity import Sproutling, Bloomelle
 from ex1.transformf_actory import Shiftling, Morphagon
 
@@ -9,15 +11,12 @@ class StrategyError(Exception):
 
 
 class BattleStrategy(ABC):
-    def __init__(self) -> None:
-        self.name = None
-
     @abstractmethod
-    def is_valid(self, creatur: Creature) -> bool:
+    def is_valid(self, creatur: Any) -> bool:
         pass
 
     @abstractmethod
-    def act(self, creatur: Creature) -> str:
+    def act(self, creatur: Any) -> str:
         pass
 
 
@@ -26,7 +25,7 @@ class NormalStrategy(BattleStrategy):
         if self.is_valid(creatur):
             return creatur.attack()
         else:
-            raise StrategyError("Error, {creatur._name} isn't \
+            raise StrategyError(f"Invalid Creature '{creatur.name}' isn't \
 compatible with Normal strategy!")
 
     def is_valid(self, creatur: Creature) -> bool:
@@ -42,22 +41,22 @@ class AggressiveStrategy(BattleStrategy):
             res3 = creatur.revert()
             return f"{res1}\n{res2}\n{res3}"
         else:
-            raise StrategyError(f"Error, {creatur._name} isn't \
+            raise StrategyError(f"Invalid Creature '{creatur.name}' isn't \
 compatible with Aggressive strategy!")
 
     def is_valid(self, creatur: Shiftling | Morphagon) -> bool:
-        return isinstance(creatur, Shiftling | Morphagon)
+        return isinstance(creatur, TransformCapability)
 
 
 class DefensiveStrategy(BattleStrategy):
-    def act(self, creatur: Sproutling | Bloomelle) -> None:
+    def act(self, creatur: Sproutling | Bloomelle) -> str:
         if self.is_valid(creatur):
             res1 = creatur.attack()
             res2 = creatur.heal()
             return f"{res1}\n{res2}"
         else:
-            raise StrategyError(f"Error, {creatur._name} isn't \
-                                  compatible with Defensive strategy!")
+            raise StrategyError(f"Invalid Creature '{creatur.name}' isn't \
+compatible with Defensive strategy!")
 
     def is_valid(self, creatur: Sproutling | Bloomelle) -> bool:
-        return isinstance(creatur, Sproutling | Bloomelle)
+        return isinstance(creatur, HealCapability)

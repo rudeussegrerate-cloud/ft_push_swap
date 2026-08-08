@@ -12,7 +12,7 @@ class TransformCapability(ABC):
 
     def __init__(self) -> None:
         super().__init__()
-        self._is_transform = False
+        self.is_transform = False
 
     @abstractmethod
     def transform(self) -> str:

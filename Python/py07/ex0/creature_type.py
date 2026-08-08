@@ -4,44 +4,44 @@ from abc import ABC, abstractmethod
 class Creature(ABC):
     def __init__(self, name: str, type: str) -> None:
         super().__init__()
-        self._name = name
-        self._type = type
+        self.name = name
+        self.type = type
 
     @abstractmethod
     def attack(self) -> str:
         pass
 
     def describe(self) -> str:
-        return f"{self._name} is a {self._type} type Creature"
+        return f"{self.name} is a {self.type} type Creature"
 
 
 class Flameling(Creature):
-    def __init__(self, name: str, type: str) -> None:
-        super().__init__(name, type)
+    def __init__(self) -> None:
+        super().__init__("Flameling", "Fire")
 
     def attack(self) -> str:
-        return f"{self._name} use Ember!"
+        return f"{self.name} use Ember!"
 
 
 class Pyrodon(Creature):
-    def __init__(self, name: str, type: str) -> None:
-        super().__init__(name, type)
+    def __init__(self) -> None:
+        super().__init__("Pyrodon", "Fire/Flying")
 
     def attack(self) -> str:
-        return f"{self._name} use Flamethrower!"
+        return f"{self.name} use Flamethrower!"
 
 
 class Aquabub(Creature):
-    def __init__(self, name: str, type: str) -> None:
-        super().__init__(name, type)
+    def __init__(self) -> None:
+        super().__init__("Aquabub", "Water")
 
     def attack(self) -> str:
-        return f"{self._name} use  Water Gun!"
+        return f"{self.name} use  Water Gun!"
 
 
 class Torragon(Creature):
-    def __init__(self, name: str, type: str) -> None:
-        super().__init__(name, type)
+    def __init__(self) -> None:
+        super().__init__("Torragon", "Water")
 
     def attack(self) -> str:
-        return f"{self._name} use Hydro Pump!"
+        return f"{self.name} use Hydro Pump!"

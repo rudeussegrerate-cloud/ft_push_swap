@@ -14,7 +14,6 @@ def battle(opponents: list[tuple[CreatureFactory, BattleStrategy]]) -> None:
     for factory, strategy in opponents:
         creature = factory.create_base()
         creatures_with_strategies.append((creature, strategy))
-
     for i in range(len(creatures_with_strategies)):
         for j in range(i + 1, len(creatures_with_strategies)):
             c1, s1 = creatures_with_strategies[i]
@@ -41,32 +40,48 @@ if __name__ == "__main__":
         normal = NormalStrategy()
         aggressive = AggressiveStrategy()
         defensive = DefensiveStrategy()
-
-        print("Tournament 0 (basic)")
-        print("[ (Flameling+Normal), (Healing+Defensive) ]")
-        battle([
-            (flame_factory, normal),
-            (healing_factory, defensive)
-        ])
+        try:
+            print("Tournament 0 (basic)")
+            tournament_0: list[tuple[CreatureFactory, BattleStrategy]] = [
+                (flame_factory, normal),
+                (aqua_factory, normal)
+            ]
+            names = [f"({type(f).__name__}+{type(s).__name__})"
+                     for f, s in tournament_0]
+            print(f"[ {', '.join(names)} ]")
+            battle(tournament_0)
+        except (Exception, StrategyError) as e:
+            print(e)
 
         print("\n" + "="*40 + "\n")
 
         print("Tournament 1 (error)")
-        print("[ (Flameling+Aggressive), (Healing+Defensive) ]")
-        battle([
-            (flame_factory, aggressive),
-            (healing_factory, defensive)
-            ])
+        try:
+            tournament_1: list[tuple[CreatureFactory, BattleStrategy]] = [
+                (flame_factory, defensive),
+                (healing_factory, aggressive)
+            ]
+            names = [f"({type(f).__name__}+{type(s).__name__})"
+                     for f, s in tournament_1]
+            print(f"[ {', '.join(names)} ]")
+            battle(tournament_1)
+        except (Exception, StrategyError) as e:
+            print(e)
 
         print("\n" + "="*40 + "\n")
 
         print("Tournament 2 (multiple)")
-        print("[ (Aquabub+Normal), (Healing+Defensive), \
-    (Transform+Aggressive) ]")
-        battle([
-            (aqua_factory, normal),
-            (healing_factory, defensive),
-            (transform_factory, aggressive)
-        ])
+        try:
+            tournament_2: list[tuple[CreatureFactory, BattleStrategy]] = [
+                (aqua_factory, normal),
+                (healing_factory, defensive),
+                (transform_factory, aggressive)
+            ]
+            names = [f"({type(f).__name__}+{type(s).__name__})"
+                     for f, s in tournament_2]
+            print(f"[ {', '.join(names)} ]")
+            battle(tournament_2)
+        except (Exception, StrategyError) as e:
+            print(e)
     except (Exception, StrategyError) as e:
         print("Got Error: ", e)
