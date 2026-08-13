@@ -1,22 +1,18 @@
-[project]
-name = "ex1"
+[tool.poetry]
+name = "loading"
 version = "0.1.0"
-description = ""
+description = "Matrix data analysis tool"
 authors = [
-    {name = "None"}
+    {name = "Tusio"}
 ]
-requires-python = ">=3.10"
-dependencies = [
-]
+readme = "README.md"
 
-[dependency-groups]
-dev = [
-    "numpy (>=1.26)",
-    "pandas (==2.1)",
-    "matplotlib (>=3.8)"
-]
-
+[tool.poetry.dependencies]
+python = ">=3.10"
+numpy = ">=1.26"
+pandas = ">=2.1"
+matplotlib = ">=3.8"
 
 [build-system]
-requires = ["poetry-core>=2.0.0,<3.0.0"]
+requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
