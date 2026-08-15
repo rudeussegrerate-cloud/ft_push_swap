@@ -1,106 +1,45 @@
 #!/usr/bin/env python3
 import os
-import sys
-
-
-def load_env() -> None:
-    try:
-        from dotenv import load_dotenv
-        load_dotenv()
-    except ImportError as e:
-        raise RuntimeError(
-            f"{e}\nPlease install python-dotenv:\n"
-            "  pip install python-dotenv"
-        )
-
-
-def get_config() -> dict[str, str]:
-    keys = {
-        "MATRIX_MODE": "development",
-        "DATABASE_URL": "",
-        "API_KEY": "",
-        "LOG_LEVEL": "INFO",
-        "ZION_ENDPOINT": "",
-    }
-    config: dict[str, str] = {}
-    missing: list[str] = []
-
-    for key, default in keys.items():
-        value = os.getenv(key, default)
-        if not value:
-            missing.append(key)
-        else:
-            config[key] = value
-
-    if missing:
-        raise ValueError(
-            f"Missing required configuration: {', '.join(missing)}\n"
-            "Copy .env.example to .env and fill in the values."
-        )
-    return config
-
-
-def display_config(config: dict[str, str]) -> None:
-    labels = {
-        "MATRIX_MODE": "Mode",
-        "DATABASE_URL": "Database",
-        "API_KEY": "API Access",
-        "LOG_LEVEL": "Log Level",
-        "ZION_ENDPOINT": "Zion Network",
-    }
-    print("Configuration loaded:")
-    for key, label in labels.items():
-        value = config[key]
-        if key == "API_KEY":
-            value = value[:4] + "****" if len(value) > 4 else "****"
-        print(f"{label}: {value}")
-
-
-def show_mode_behavior(config: dict[str, str]) -> None:
-    mode = config.get("MATRIX_MODE", "development")
-    print(f"\n[{mode.upper()} MODE]")
-    if mode == "development":
-        print("  - Verbose logging enabled (DEBUG)")
-        print("  - Using local database instance")
-        print("  - Error stack traces will be shown")
-    elif mode == "production":
-        print("  - Minimal logging (WARN only)")
-        print("  - Using remote database")
-        print("  - Errors are silently logged")
-    else:
-        print(f"  - Unknown mode '{mode}', defaulting to development behavior")
-
-
-def security_check(config: dict[str, str]) -> None:
-    print("\nEnvironment security check:")
-
-    api_key = config.get("API_KEY", "")
-    if api_key not in ("", "changeme", "secret", "12345"):
-        print("[OK] No hardcoded secrets detected")
-    else:
-        print("[WARN] API_KEY looks like a placeholder — change it!")
-
-    if os.path.isfile(".env"):
-        print("[OK] .env file properly configured")
-    else:
-        print("[WARN] No .env file found — using environment variables only")
-
-
-    print("[OK] Production overrides available")
 
 
 if __name__ == "__main__":
-    print("ORACLE STATUS: Reading the Matrix...\n")
     try:
-        load_env()
-        config = get_config()
-        display_config(config)
-        show_mode_behavior(config)
-        security_check(config)
-        print("\nThe Oracle sees all configurations.")
-    except (RuntimeError, ValueError) as e:
-        print(f"Got error: {e}")
-        sys.exit(1)
+        try:
+            from dotenv import load_dotenv
+            is_env = load_dotenv()
+        except ImportError as e:
+            raise Exception(f"{e}, please install the module before\n\
+            do: pip install python-dotenv or the comment for install it")
+        if not is_env:
+            raise Exception("The .env file is missing")
+        conf = [("Mode", "MATRIX_MODE"),
+                ("Database", "DATABASE_URL"),
+                ("API Access", "API_KEY"),
+                ("Log Level", "LOG_LEVEL"),
+                ("Zion Network", "ZION_ENDPOINT")]
+        values: list[str] = []
+        mode = None
+        for _, key in conf:
+            if (os.getenv(key)):
+                values.append(os.getenv(key))
+            else:
+                raise Exception("missing key or value in .env file ;p")
+        for key in values:
+            if key.lower() in ("development", "production"):
+                mode = key.lower()
+                break
+        if mode == "development":
+            print(f"Mode : {mode}\n\
+                Database : in localhost\n\
+                API Access : key api is load\n\
+                Log Level : DEBUG\n\
+                Zion Network : net zion")
+        if mode == "production":
+            print(f"Mode : {mode}\n\
+                Database : in the server\n\
+                API Access : key api is load\n\
+                Log Level : ONLINE\n\
+                Zion Network : net zion")
+
     except Exception as e:
-        print(f"Unexpected error: {e}")
-        sys.exit(1)
+        print(f"Got error: {e}")

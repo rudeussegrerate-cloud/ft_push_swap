@@ -1,11 +1,1 @@
-# Never commit secrets to version control
 .env
-
-# Python
-__pycache__/
-*.py[cod]
-*.egg-info/
-
-# Virtual environments
-matrix_env/
-.venv/
