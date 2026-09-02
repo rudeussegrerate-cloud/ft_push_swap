@@ -1,0 +1,464 @@
+a) Algorithmes optimaux (garantissant un coût total minimal)
+Exemples :
+
+Recherche basée sur les conflits (CBS)
+
+ICTS (Recherche arborescente à coût croissant)
+
+CBS-NIC, CCBS (variantes pour temps continu, coûts non unitaires, etc.).
+arXiv
++4
+
+Ils sont complets et optimaux, mais peuvent devenir lents lorsque le nombre d'agents ou la densité augmente.
+
+b) Algorithmes scalables / suboptimaux (plus rapides, pas toujours optimaux)
+Exemples :
+
+Prioritized Planning : on planifie les agents un par un selon un ordre de priorité.
+
+PIBT, HCA, LaCAM* : méthodes décentralisées ou hybrides.
+
+MAPF-LNS2 : utilisez une recherche locale à grand voisinage pour réparer les collisions.
+
+5. Variantes modernes de CBS
+Plusieurs améliorations récentes existantes :
+
+CCBS (Continuous-time CBS) : gestion des actions asynchrones et du temps continu (MAPF-AA, MAPFR).
+recherche.chalmers
++1
+
+CBS-NIC : pour des coûts d'arêtes entières non unitaires, avec détection de conflits par intervalles de temps.
+arXiv
+
+DCPCBS : ajoute une priorisation dynamique des conflits et une expansion parallèle de l'arbre de contraintes pour mieux scaler.
+
+6. Algorithmes scalables / décentralisés
+Pour des centaines ou milliers d'agents (entrepôts, jeux vidéo), on utilise souvent des approches plus légères :
+
+Planification prioritaire:
+On ordonne les agents (par exemple selon la distance à leur objectif), puis on planifie un par un en traitant les agents déjà planifiés comme des obstacles mobiles.
+
+PIBT (Héritage prioritaire avec retour en arrière):
+Algorithme décentralisé qui attribue des priorités dynamiques et permet le backtracking pour résoudre les conflits.
+arXiv
++1
+
+IO-MAPF : cadre hybride où chaque agent planifie de manière décentralisée (par RL par exemple), et un coordinateur central envoie des signaux minimaux (alertes de conflits) pour guider la résolution.
+arXiv
+
+MAPF-LNS2 : utilise une recherche locale à grand voisinage (Large Neighbourhood Search) pour replanifier itérativement des sous-ensembles d'agents en collision, avec de très bons résultats en vitesse et taux de succès.
+Scribd
+
+================================================================================oooo=================================================================================================================================================
+
+Oui — je peux être ton professeur pour ce cours de théorie des graphes. Le PDF que vous avez envoyé semble être un vrai support de cours complet, avec les bases, les chemins et circuits, la connexité, les arbres, les graphiques planaires et le coloriage.
+
+Comment on peut travailler
+On peut faire le cours de plusieurs façons, selon votre niveau et votre objectif :
+
+explication simple des notions une par une.
+
+exercices corrigés.
+
+résumé de chapitre.
+
+préparation à un examen.
+
+reprise d'une page ou d'une définition précise du PDF.
+
+Plan de cours possible
+Le résumé du document montre notamment :
+
+introduction aux graphiques orientés et non orientés.
+
+chemins, circuits, distance et connectivité.
+
+arbres et isomorphismes.
+
+graphes planaires.
+
+coloriage et nombre chromatique.
+
+Première leçon
+On peut commencer par :
+
+définition d'un graphe.
+
+différence entre graphique orienté et non orienté.
+
+sommets, arêtes, degré.
+
+exemples simples.
+
+petits exercices d'application.
+
+Tu peux juste m'écrire « commencer par la leçon 1 » ou bien m'envoyer une page / un exercice précis du PDF, et je te l'explique comme en cours.
+
+leçon 1
+
+Très bien, commençons la leçon 1 . Dans le support que tu as envoyé, le chapitre d'introduction présente les graphes comme un outil pour modéliser beaucoup de situations concrètes, puis il commence par les notions de graphe orienté, non orienté, sommets et arêtes.
+
+1. C'est quoi un graphique ?
+Un graphe sert à représenter des objets et les liens entre eux. On note en général un graphique
+G
+=
+(
+V
+,
+E
+)
+G=( V ,E ), où
+V
+Vest l'ensemble des sommets et
+E
+El'ensemble des arêtes ou arcs .
+
+Exemple simple :
+
+V
+=
+{
+UN
+,
+B
+,
+C
+,
+D
+}
+V={ UN ,B ,C ,D }.
+
+E
+=
+{
+UN
+B
+,
+UN
+C
+,
+B
+D
+}
+E={ A B ,Un C ,B D }.
+
+Ici, les sommets sont les points, et les arêtes sont les connexions entre eux.
+
+2. Graphique orienté et non orienté
+Un graphique est orienté quand chaque lien a un sens, par exemple
+UN
+→
+B
+UN→B. Un graphe n'est pas orienté quand le lien n'a pas de sens, donc
+UN
+−
+B
+UN−Best la même chose que
+B
+−
+UN
+B−UN.
+
+Dans le PDF, cette distinction est importante parce qu'elle change la façon de définir les voisins, les degrés et les chemins.
+
+3. Dégré d'un sommet
+Dans un graphique non orienté, le degré d'un sommet est le nombre d'arêtes qui lui sont incidents. Dans un graphique orienté, on distingue le degré entrant et le degré sortant .
+
+Exemple :
+
+Si
+UN
+UNest relié à
+B
+B,
+C
+Cet
+D
+D, alors le degré de
+UN
+UNest 3.
+
+Si
+UN
+UNenvoie vers 2 sommets et reçoit de 1 sommet, alors son degré sortant vaut 2 et son degré entrant vaut 1.
+
+4. Voisins, boucles, multigraphes
+Deux sommets sont voisins s'ils sont reliés par une arête. Une boucle est une arête qui repose un sommet à lui-même. Un multigraphe autorise plusieurs arêtes entre les mêmes sommets.
+
+Le PDF insiste aussi sur le fait qu'un graphe simple ne contient ni boucles ni arêtes multiples.
+
+5. Petit exemple
+Prenons le graphe :
+
+Sommets :
+V
+=
+{
+UN
+,
+B
+,
+C
+}
+V={ UN ,B ,C }.
+
+Arêtes :
+E
+=
+{
+UN
+B
+,
+B
+C
+}
+E={ A B ,BC }.
+
+Alors :
+
+UN
+UNest voisin de
+B
+B.
+
+B
+Best voisin de
+UN
+UNet
+C
+C.
+
+C
+Cest voisin de
+B
+B.
+
+Si on ajoute une arête
+C
+UN
+C A, onobtient un triangle, c'est-à-dire un cycle simple.
+
+6. Exercice rapide
+Essaie de répondre sans calcul compliqué :
+
+Dans le graphe
+V
+=
+{
+1
+,
+2
+,
+3
+,
+4
+}
+V={ 1 ,2 ,3 ,4 },
+E
+=
+{
+12
+,
+13
+,
+14
+}
+E={ 12 ,13 ,14 }, quel est le degré de 1 ?
+
+Quels sont les voisins de 1 ?
+
+Ce graphe est-il orienté ou non orienté ?
+
+Réponses :
+
+Le degré de 1 est 3.
+
+Les voisins de 1 sont 2, 3 et 4.
+
+C'est un graphe non orienté.
+
+7. Ce qu'on fera ensuite
+La suite naturelle de la leçon 1 est :
+
+les chemins et circuits.
+
+la connexité.
+
+la distance entre deux sommets.
+
+puis les arbres.
+
+Le cours de français pour débutants que j'ai trouvé sur le web utilise aussi une progression très guidée par leçon, avec des notions simples introduites pas à pas, ce qui est une bonne méthode pour apprendre efficacement.
+
+Leçon 2 : je peux maintenant t'expliquer les chemins et les circuits , ou te donner un mini-exercice corrigé sur les graphiques.
+
+maintenant continuant avec l'apprentissage des algorithmes MAPF (multiple agent pathfinding)
+
+Parfait — on passe maintenant à MAPF (Multi-Agent Path Finding) , c'est-à-dire la planification de chemins pour plusieurs agents en même temps, sans collisions.
+
+1. Qu'est-ce que MAPF ?
+MAPF, c'est le problème suivant :
+
+Sur un graphe (ou une grille) qui représente l'environnement.
+
+Sur plusieurs agents, chacun avec :
+
+une position de départ,
+
+une position d'arrivée (but).
+
+On cherche un chemin pour chaque agent tel que :
+
+aucun deux agents n'occupent le même sommet au même instant (collision de type sommet),
+
+Aucun deux agents n'échangent leurs positions sur une arête au même instant (collision de type edge).
+
+C'est une extension « multi-agents » de A* : au lieu d'un seul chemin optimal, on veut un ensemble de chemins compatibles.
+
+2. Pourquoi c'est plus dur que A* ?
+Avec un seul agent, on cherche un chemin dans un graphe : complexité raisonnable.
+Avec
+k
+kagents, l'espace d'états « commun » est essentiellement le produit cartésien des positions de chaque agent, donc exponentiel en
+k
+k. C'est pourquoi on ne peut pas simplement faire un A* géant sur l'état global, sauf pour très peu d'agents.
+
+On utilise donc des algorithmes spécialisés qui découpent le problème.
+
+3. Deux grandes familles d'algorithmes MAPF
+On distingue souvent :
+
+a) Algorithmes optimaux (garantissant un coût total minimal)
+Exemples :
+
+Recherche basée sur les conflits (CBS)
+
+ICTS (Recherche arborescente à coût croissant)
+
+CBS-NIC, CCBS (variantes pour temps continu, coûts non unitaires, etc.).
+
+Ils sont complets et optimaux, mais peuvent devenir lents lorsque le nombre d'agents ou la densité augmente.
+
+b) Algorithmes scalables / suboptimaux (plus rapides, pas toujours optimaux)
+Exemples :
+
+Prioritized Planning : on planifie les agents un par un selon un ordre de priorité.
+
+PIBT, HCA, LaCAM* : méthodes décentralisées ou hybrides.
+
+MAPF-LNS2 : utilisez une recherche locale à grand voisinage pour réparer les collisions.
+
+Ils sont plus rapides sur de grands scénarios, mais ne garantissent pas toujours l'optimalité.
+
+4. L'algorithme phare : CBS (Conflict-Based Search)
+CBS est l'algorithme « classique » optimal pour MAPF. Il est très bien expliqué dans plusieurs sources récentes.
+
+Idée générale
+CBS utilise une recherche à deux niveaux :
+
+Niveau bas (faible niveau):
+Pour chaque agent, on lance un A* individuel (ou un autre respectivement mono-agent) qui trouve le chemin le plus court pour cet agent, en respectant des contraintes temporelles du type :
+
+« l'agent i ne peut pas être au sommet v au temps t ».
+
+À ce niveau, on ignore les autres agents, sauf ces contraintes.
+
+Niveau haut (high-level):
+On construit un arbre de contraintes (Constraint Tree, CT) :
+
+Racine : pas de contrainte. On calcule un chemin optimal pour chaque agent (indépendant).
+
+On simule tous les chemins ensemble et on détecte la première collision (entre deux agents, à un sommet ou sur une arête, à un instant t).
+
+Si pas de collision → solution trouvée, et elle est optimale.
+
+Sinon, on crée deux enfants dans l'arbre :
+
+dans l'un, on interdit à l'agent A d'être à cette position à ce temps,
+
+dans l'autre, on interdit à l'agent B.
+
+Dans chaque enfant, on ne re-planifie que l'agent contraint (low-level A* avec contrainte).
+
+On continue avec une recherche de type « meilleur coût d'abord » (branch-and-bound) jusqu'à obtenir un nœud sans collision.
+
+CBS garde l'espace de recherche petit car il n'ajoute des contraintes que là où il y a vraiment un conflit, au lieu de raisonner sur toutes les interactions possibles dès le début.
+
+5. Variantes modernes de CBS
+Plusieurs améliorations récentes existantes :
+
+CCBS (Continuous-time CBS) : gestion des actions asynchrones et du temps continu (MAPF-AA, MAPFR).
+
+CBS-NIC : pour des coûts d'arêtes entières non unitaires, avec détection de conflits par intervalles de temps.
+
+DCPCBS : ajoute une priorisation dynamique des conflits et une expansion parallèle de l'arbre de contraintes pour mieux scaler.
+
+Ces variantes gardent l'idée de base de CBS, mais améliorent la performance ou le réalisme (temps continu, coûts variables, etc.).
+
+6. Algorithmes scalables / décentralisés
+Pour des centaines ou milliers d'agents (entrepôts, jeux vidéo), on utilise souvent des approches plus légères :
+
+Planification prioritaire:
+On ordonne les agents (par exemple selon la distance à leur objectif), puis on planifie un par un en traitant les agents déjà planifiés comme des obstacles mobiles.
+
+PIBT (Héritage prioritaire avec retour en arrière):
+Algorithme décentralisé qui attribue des priorités dynamiques et permet le backtracking pour résoudre les conflits.
+
+IO-MAPF : cadre hybride où chaque agent planifie de manière décentralisée (par RL par exemple), et un coordinateur central envoie des signaux minimaux (alertes de conflits) pour guider la résolution.
+
+MAPF-LNS2 : utilise une recherche locale à grand voisinage (Large Neighbourhood Search) pour replanifier itérativement des sous-ensembles d'agents en collision, avec de très bons résultats en vitesse et taux de succès.
+
+7. Commenter sur peut apprendre MAPF ensemble
+On peut structurer votre apprentissage comme un mini-cours :
+
+Rappels de graphes et de A *
+
+Revoir A* sur un graphe simple.
+
+Notion de coût, heuristique, optimalité.
+
+Définir formellement MAPF
+
+Graphe, agents, postes, temps discrets.
+
+Types de collisions (sommet, arête).
+
+Fonction de coût (somme des longueurs, makespan, etc.).
+
+Étudier CBS pas à pas
+
+Exemple très petit (2–3 agents sur une grille 4×4).
+
+Montrer :
+
+les chemins individuels,
+
+la détection de collision,
+
+la création de contraintes,
+
+la replanification de bas niveau.
+
+Implémentation simple
+
+Grille 2D, températures discrètes.
+
+Un mono-agent A*.
+
+CBS « basique » (sans optimisations avancées).
+
+Variantes et compromis
+
+Planification priorisée vs CBS.
+
+Quand utiliser l’un ou l’autre.
+
+Idées de MAPF en temps continu, avec coûts non unitaires.
+
+Dis-moi ce que tu préfères faire maintenant :
+
+un cours théorique (définitions + CBS détaillé),
+
+un exemple concret pas à pas (je te donne une petite grille et on simule CBS à la main),
+
+ou un pseudo-code / début d'implémentation (en Python par exemple) pour MAPF simple.
