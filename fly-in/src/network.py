@@ -10,7 +10,7 @@ class Network:
         self.all_connection: list[Connection] = []
 
     def add_zone(self, zone: Zone) -> None:
-        """Ajout et initialisation de zone """
+        """ Ajout et initialisation de zone """
         self.all_zone.update({zone.name: zone})
 
     def add_connection(self,
