@@ -1,0 +1,25 @@
+to seach:
+gestion des erreur:
+    Privilégiez les gestionnaires de contexte
+• Toutes les classes doivent utiliser pydantic pour la validation.
+• Vous pouvez utiliser les paquets numpy et json.
+• L'utilisation de dspy (ou de tout autre package similaire) est strictement interdite, y compris
+pytorch, le package huggingface, transformers, outlines, etc.
+• Vous devez utiliser les modèles suivants :
+◦ Qwen/Qwen3-0.6B (par défaut)
+◦ Vous pouvez utiliser d’autres modèles à condition que votre projet fonctionne avec
+Qwen/Qwen3-0.6B.
+• La fonction à appeler doit être choisie à l'aide du LLM, et non à l'aide d'heuristiques ou de
+toute autre forme de « magie médiévale ».
+• Il est interdit d'utiliser des méthodes ou des attributs privés du paquet llm_sdk.
+• Vous devez créer un environnement virtuel et installer les paquets numpy et pydantic à l'aide
+de uv. Pour utiliser llm_sdk, vous pouvez le copier dans le même répertoire que celui où se
+trouve src.
+• Le correcteur, tout comme la moulinette, se contentera d’exécuter la commande `uv sync`.
+• Toutes les erreurs doivent être gérées de manière élégante. Votre programme ne doit jamais
+planter de manière inattendue et doit toujours fournir des messages d’erreur clairs à
+l’utilisateur.
+
+usage:
+    uv run python -m src [--functions_definition <fichier_de_définition_des_fonctions>] [--input <fichier_d'entrée>] [--
+output <fichier_de_sortie>
