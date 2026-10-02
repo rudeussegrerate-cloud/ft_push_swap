@@ -27,9 +27,10 @@ class Network:
 
         zone_a, zone_b = connection
         try:
-            connect_zone: Connection = Connection(self.all_zone[zone_a],
-                                                  self.all_zone[zone_b],
-                                                  max_link)
+            connect_zone: Connection = Connection(
+                                       self.all_zone[zone_a.strip()],
+                                       self.all_zone[zone_b.strip()],
+                                       max_link)
             self.all_connection.append(connect_zone)
         except Exception:
             raise KeyError('Got error: zone does not exist!')

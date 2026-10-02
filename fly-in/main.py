@@ -6,5 +6,5 @@ if __name__ == '__main__':
         pars = Parser(f)
         pars._parse_nb_drones_line()
         pars._parse_zone_line()
-        print(pars.graph.nbr_drone)
+        pars._parse_connection_line()
 
