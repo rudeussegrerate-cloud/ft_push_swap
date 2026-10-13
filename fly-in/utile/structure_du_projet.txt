@@ -1,0 +1,34 @@
+fly-in/
+├── README.md
+├── Makefile
+├── .gitignore
+├── requirements.txt          (ou pyproject.toml)
+├── main.py                   # point d'entrée
+├── maps/                     # tes fichiers de config .txt de test
+│   └── example.txt
+├── src/
+│   ├── __init__.py
+│   ├── zones/
+│   │   ├── __init__.py
+│   │   ├── zone.py           # classe abstraite Zone
+│   │   ├── normal_zone.py
+│   │   ├── priority_zone.py
+│   │   ├── restricted_zone.py
+│   │   └── blocked_zone.py
+│   ├── connection.py
+│   ├── network.py
+│   ├── drone.py
+│   ├── parser.py
+│   ├── pathfinding.py
+│   ├── reservation_table.py
+│   ├── conflict_checker.py
+│   ├── simulation.py
+│   └── display/
+│       ├── __init__.py
+│       ├── terminal_display.py
+│       └── graphical_display.py   # (bonus, plus tard)
+└── tests/
+    ├── __init__.py
+    ├── test_parser.py
+    ├── test_pathfinding.py
+    └── ...
