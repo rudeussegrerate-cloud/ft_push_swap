@@ -1,14 +1,17 @@
 NAME = codexion
 CC = cc
-FLAG = -Wall -Wextra -Werror
-SRC = main.c
+CFLAGS = -Wall -Wextra -Werror 
+SRC = main.c  utile.c
 OBJ = $(SRC:.c=.o)
 
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(FLAG) $(SRC) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) -o $(NAME) -pthread
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJ)
@@ -16,6 +19,6 @@ clean:
 fclean: clean
 	rm -f $(NAME)
 
-re: fclean clean
+re: fclean all
 
 .PHONY: all clean fclean re

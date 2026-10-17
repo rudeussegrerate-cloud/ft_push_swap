@@ -1,6 +1,11 @@
-#include <stdio.h>
+#include "module/data.h"
+#include "module/utile.h"
 
-int main()
+int main(int n, char* arg[])
 {
-    printf("%s", "hello");
+    if (n != 10)
+    {
+        fprintf(stderr, "one are more arguments needed");
+        parsing(arg);
+    }
 }
